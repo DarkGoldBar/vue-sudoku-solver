@@ -5,10 +5,10 @@
         v-for="i in 81"
         :key="i - 1"
         :index="i - 1"
-        :val="cells[i - 1]"
-        :valCount="neighborCounts[i - 1]"
+        :val="cells[i - 1] ?? null"
+        :valCount="neighborCounts[i - 1] ?? [0, 0, 0, 0, 0, 0, 0, 0, 0]"
         @cellClick="handleCellClick"
-        :class="{ selected: i == selectedCell + 1 }"
+        :class="{ selected: i == (selectedCell ?? -1) + 1 }"
       />
     </div>
     <!-- 数字选择面板 -->
@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import SudokuCell from './SudokuCell.vue';
 
 // 存储81个格子的值
@@ -48,9 +48,7 @@ const selectedCell = ref<number | null>(null);
 
 // 计算邻接表
 const buildNeighborMap = () => {
-  const map: number[][] = Array(81)
-    .fill(null)
-    .map(() => []);
+  const map: number[][] = Array.from({ length: 81 }, () => []);
 
   for (let i = 0; i < 81; i++) {
     const row = Math.floor(i / 9);
@@ -60,14 +58,14 @@ const buildNeighborMap = () => {
     // 添加同行邻居
     for (let c = 0; c < 9; c++) {
       if (c !== col) {
-        map[i].push(row * 9 + c);
+        map[i]!.push(row * 9 + c);
       }
     }
 
     // 添加同列邻居
     for (let r = 0; r < 9; r++) {
       if (r !== row) {
-        map[i].push(r * 9 + col);
+        map[i]!.push(r * 9 + col);
       }
     }
 
@@ -77,8 +75,8 @@ const buildNeighborMap = () => {
     for (let r = 0; r < 3; r++) {
       for (let c = 0; c < 3; c++) {
         const index = (blockRowStart + r) * 9 + (blockColStart + c);
-        if (index !== i && !map[i].includes(index)) {
-          map[i].push(index);
+        if (index !== i && !map[i]!.includes(index)) {
+          map[i]!.push(index);
         }
       }
     }
@@ -98,15 +96,15 @@ const updateNeighborCounts = (
 ) => {
   // 移除旧值的计数
   if (oldVal !== null) {
-    neighborMap[index].forEach((neighbor) => {
-      neighborCounts.value[neighbor][oldVal - 1]--;
+    neighborMap[index]!.forEach((neighbor) => {
+      neighborCounts!.value[neighbor]![oldVal - 1]!--;
     });
   }
 
   // 添加新值的计数
   if (newVal !== null) {
-    neighborMap[index].forEach((neighbor) => {
-      neighborCounts.value[neighbor][newVal - 1]++;
+    neighborMap[index]!.forEach((neighbor) => {
+      neighborCounts!.value[neighbor]![newVal - 1]!++;
     });
   }
 };
@@ -122,7 +120,7 @@ const handleNumberSelect = (num: number | null) => {
 
   const oldVal = cells.value[selectedCell.value];
   cells.value[selectedCell.value] = num;
-  updateNeighborCounts(selectedCell.value, oldVal, num);
+  updateNeighborCounts(selectedCell.value, oldVal!, num);
 };
 
 // 处理导出功能
@@ -130,7 +128,7 @@ const handleExport = () => {
   const exportString = cells.value
     .map((val) => (val === null ? '0' : val))
     .join('');
-  const result = window.prompt('Sudoku data (81 numbers):', exportString);
+  window.prompt('Sudoku data (81 numbers):', exportString);
 };
 
 // 处理导入功能
@@ -179,9 +177,9 @@ const handleHint = () => {
     if (cells.value[i] !== null) continue;
 
     // 计算这个格子的候选数字
-    if (neighborCounts.value[i].filter((x) => x == 0).length == 1) {
+    if (neighborCounts.value[i]!.filter((x) => x == 0).length == 1) {
       selectedCell.value = i;
-      return neighborCounts.value[i].indexOf(0) + 1;
+      return neighborCounts.value[i]!.indexOf(0) + 1;
     }
   }
 
@@ -198,12 +196,12 @@ const handleHint = () => {
     for (let n = 1; n <= 9; n++) {
       let possiblePositions = [];
       for (const index of emptyIndices) {
-        if (neighborCounts.value[index][n - 1] === 0) {
+        if (neighborCounts.value[index]![n - 1] === 0) {
           possiblePositions.push(index);
         }
       }
       if (possiblePositions.length === 1) {
-        selectedCell.value = possiblePositions[0];
+        selectedCell.value = possiblePositions[0]!;
         return n;
       }
     }
@@ -222,12 +220,12 @@ const handleHint = () => {
     for (let n = 1; n <= 9; n++) {
       let possiblePositions = [];
       for (const index of emptyIndices) {
-        if (neighborCounts.value[index][n - 1] === 0) {
+        if (neighborCounts.value[index]![n - 1] === 0) {
           possiblePositions.push(index);
         }
       }
       if (possiblePositions.length === 1) {
-        selectedCell.value = possiblePositions[0];
+        selectedCell.value = possiblePositions[0]!;
         return n;
       }
     }
@@ -252,12 +250,12 @@ const handleHint = () => {
     for (let n = 1; n <= 9; n++) {
       let possiblePositions = [];
       for (const index of emptyIndices) {
-        if (neighborCounts.value[index][n - 1] === 0) {
+        if (neighborCounts.value[index]![n - 1] === 0) {
           possiblePositions.push(index);
         }
       }
       if (possiblePositions.length === 1) {
-        selectedCell.value = possiblePositions[0];
+        selectedCell.value = possiblePositions[0]!;
         return n;
       }
     }

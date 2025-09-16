@@ -4,7 +4,7 @@
     <div
       v-if="val"
       class="main-number"
-      :class="{ error: valCount[val - 1] > 0 }"
+      :class="{ error: (valCount[val - 1] ?? 0) > 0 }"
     >
       {{ val }}
     </div>
@@ -14,7 +14,7 @@
         v-for="n in 9"
         :key="n"
         class="candidate-number"
-        :class="{ hidden: valCount[n - 1] > 0 }"
+        :class="{ hidden: valCount[n - 1] ?? 0 > 0 }"
       >
         {{ n }}
       </div>
@@ -23,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 
 const props = defineProps<{
   index: number;
