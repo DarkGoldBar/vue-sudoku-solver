@@ -1,6 +1,6 @@
 <template>
   <div class="sudoku-table">
-    <div class="sudoku-grid">
+    <div class="sudoku-grid" tabindex="0" @keydown="onKeyDown">
       <SudokuCell
         v-for="i in 81"
         :key="i - 1"
@@ -108,6 +108,17 @@ const updateNeighborCounts = (
     });
   }
 };
+
+// 处理键盘事件
+const onKeyDown = (event: KeyboardEvent) => {
+  // 检查是否是数字键（0-9）
+  const key = event.key
+  if (/^[0-9]$/.test(key)) {
+    const number = parseInt(key)
+    handleNumberSelect(number ? number : null)
+    selectedCell.value = selectedCell.value + 1;
+  }
+}
 
 // 处理格子点击
 const handleCellClick = (index: number) => {
@@ -302,7 +313,6 @@ const handleSolve = () => {
 }
 
 .panel button {
-  height: 40px;
   font-size: 18px;
   cursor: pointer;
 }
