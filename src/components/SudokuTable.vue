@@ -24,6 +24,7 @@
       <button @click="handleHint()">Hint</button>
       <button @click="handleExport()">Export</button>
       <button @click="handleImport()">Import</button>
+      <button @click="handleRandom()">Random</button>
     </div>
   </div>
 </template>
@@ -31,6 +32,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import SudokuCell from './SudokuCell.vue';
+import { generateSudokuSolution } from './functions';
 
 // 存储81个格子的值
 const cells = ref<(number | null)[]>(Array(81).fill(null));
@@ -113,6 +115,7 @@ const updateNeighborCounts = (
 const onKeyDown = (event: KeyboardEvent) => {
   // 检查是否是数字键（0-9）
   const key = event.key
+  if ((selectedCell.value === null) || (selectedCell.value > 80)) return;
   if (/^[0-9]$/.test(key)) {
     const number = parseInt(key)
     handleNumberSelect(number ? number : null)
@@ -128,6 +131,7 @@ const handleCellClick = (index: number) => {
 // 处理数字选择
 const handleNumberSelect = (num: number | null) => {
   if (selectedCell.value === null) return;
+  if (selectedCell.value > 80) return;
 
   const oldVal = cells.value[selectedCell.value];
   cells.value[selectedCell.value] = num;
@@ -143,8 +147,8 @@ const handleExport = () => {
 };
 
 // 处理导入功能
-const handleImport = () => {
-  const input = window.prompt('Please input 81 numbers (0 for empty):');
+const handleImport = (prefill?: string) => {
+  const input = window.prompt('Please input 81 numbers (0 for empty):', prefill);
 
   if (!input) return; // 用户取消
 
@@ -279,6 +283,13 @@ const handleSolve = () => {
     handleNumberSelect(res);
   }
 };
+
+const handleRandom = () => {
+  const seed = Date.now()
+  const prefill = generateSudokuSolution(seed).join("")
+  handleImport(prefill)
+};
+
 </script>
 
 <style scoped>
