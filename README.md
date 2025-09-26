@@ -2,6 +2,8 @@
 
 解数独辅助工具
 
+https://darkgoldbar.github.io/vue-sudoku-solver
+
 ## 项目设计
 
 - Vue3<script setup lang="ts">
