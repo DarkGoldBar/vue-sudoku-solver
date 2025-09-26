@@ -110,18 +110,18 @@ export function generateSudokuSolution(seed: number): number[] {
 
             // 配置
             grid[bestIdx!] = d;
-            rowMask[r] |= bit;
-            colMask[c] |= bit;
-            boxMask[b] |= bit;
+            rowMask[r]! |= bit;
+            colMask[c]! |= bit;
+            boxMask[b]! |= bit;
 
             // 次へ
             if (solve(filled + 1)) return true;
 
             // 取り消し（バックトラック）
             grid[bestIdx!] = 0;
-            rowMask[r] &= ~bit;
-            colMask[c] &= ~bit;
-            boxMask[b] &= ~bit;
+            rowMask[r]! &= ~bit;
+            colMask[c]! &= ~bit;
+            boxMask[b]! &= ~bit;
         }
 
         // すべての候補が失敗
