@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import SudokuCell from './SudokuCell.vue';
-import { generateSudokuSolution } from './functions';
+import { generateSudokuSolution, generateSudokuQuestion } from './functions';
 
 // 存储81个格子的值
 const cells = ref<(number | null)[]>(Array(81).fill(null));
@@ -286,8 +286,9 @@ const handleSolve = () => {
 
 const handleRandom = () => {
   const seed = Date.now()
-  const prefill = generateSudokuSolution(seed).join("")
-  handleImport(prefill)
+  const prefill = generateSudokuSolution(seed)
+  const quest = generateSudokuQuestion(prefill)
+  handleImport(quest.join(""))
 };
 
 </script>

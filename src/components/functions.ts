@@ -137,3 +137,76 @@ export function generateSudokuSolution(seed: number): number[] {
     return grid;
 }
 
+
+export function generateSudokuQuestion(grid: number[], holes: number = 40): number[] {
+    if (grid.length !== 81) {
+      throw new Error("Grid must have length 81.");
+    }
+  
+    const puzzle = [...grid];
+    const positions = Array.from({ length: 81 }, (_, i) => i);
+  
+    // 打乱位置
+    for (let i = positions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = positions[i]!
+      positions[i] = positions[j]!
+      positions[j] = tmp
+    }
+  
+    let removed = 0;
+    for (const pos of positions) {
+      if (removed >= holes) break;
+      const backup = puzzle[pos]!;
+      puzzle[pos] = 0;
+  
+      if (!hasUniqueSolution(puzzle)) {
+        puzzle[pos] = backup; // 恢复
+      } else {
+        removed++;
+      }
+    }
+  
+    return puzzle;
+  }
+  
+  // 判断棋盘是否有唯一解
+  function hasUniqueSolution(grid: number[]): boolean {
+    let solutionCount = 0;
+  
+    function solve(board: number[]): boolean {
+      const idx = board.indexOf(0);
+      if (idx === -1) {
+        solutionCount++;
+        return solutionCount > 1; // 超过一个解就提前终止
+      }
+  
+      const row = Math.floor(idx / 9);
+      const col = idx % 9;
+  
+      for (let num = 1; num <= 9; num++) {
+        if (isValid(board, row, col, num)) {
+          board[idx] = num;
+          if (solve(board)) return true; // 超过一个解，直接返回
+          board[idx] = 0;
+        }
+      }
+      return false;
+    }
+  
+    solve([...grid]); // 使用拷贝，避免修改原数组
+    return solutionCount === 1;
+  }
+  
+  // 检查是否能放置数字
+  function isValid(board: number[], row: number, col: number, num: number): boolean {
+    for (let i = 0; i < 9; i++) {
+      if (board[row * 9 + i] === num) return false; // 行
+      if (board[i * 9 + col] === num) return false; // 列
+      const r = Math.floor(row / 3) * 3 + Math.floor(i / 3);
+      const c = Math.floor(col / 3) * 3 + (i % 3);
+      if (board[r * 9 + c] === num) return false; // 宫
+    }
+    return true;
+  }
+  
