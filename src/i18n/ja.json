@@ -1,0 +1,13 @@
+{
+    "lang": "日本語",
+    "title": "数独解答",
+    "btn": {
+        "solve": "一手進める",
+        "hint": "ヒント",
+        "export": "エクスポート",
+        "import": "インポート",
+        "new": "新規",
+        "showCandidate": "候補の表示"
+    }
+}
+

@@ -1,20 +1,18 @@
 <template>
-  <div class="sudoku-cell" @click="handleClick">
-    <!-- 当有确定数字时显示大数字 -->
+  <div class="sudoku-cell">
     <div
-      v-if="val"
+      v-if="num"
       class="main-number"
-      :class="{ error: (valCount[val - 1] ?? 0) > 0 }"
+      :class="{ error: mask & bitFor(num) }"
     >
-      {{ val }}
+      {{ num }}
     </div>
-    <!-- 当没有确定数字时显示候选数字九宫格 -->
     <div v-else class="candidates-grid">
       <div
         v-for="n in 9"
         :key="n"
         class="candidate-number"
-        :class="{ hidden: valCount[n - 1] ?? 0 > 0 }"
+        :class="{ hidden: mask & bitFor(n) }"
       >
         {{ n }}
       </div>
@@ -23,20 +21,12 @@
 </template>
 
 <script setup lang="ts">
+import { bitFor } from '../functions.js';
 
-const props = defineProps<{
-  index: number;
-  val: number | null;
-  valCount: number[];
+defineProps<{
+  num: number;
+  mask: number;
 }>();
-
-const emit = defineEmits<{
-  (e: 'cellClick', index: number): void;
-}>();
-
-const handleClick = () => {
-  emit('cellClick', props.index);
-};
 </script>
 
 <style scoped>
@@ -83,6 +73,10 @@ const handleClick = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.hideCandidate .candidate-number {
+  visibility: hidden;
 }
 
 .hidden {

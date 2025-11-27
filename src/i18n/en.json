@@ -1,0 +1,12 @@
+{
+    "lang": "English",
+    "title": "Sudoku Solver",
+    "btn": {
+        "solve": "Solve",
+        "hint": "Hint",
+        "export": "Export",
+        "import": "Import",
+        "new": "new",
+        "showCandidate": "Show Candidate"
+    }
+}

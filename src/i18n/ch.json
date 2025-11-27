@@ -1,0 +1,12 @@
+{
+    "lang": "中文",
+    "title": "数独求解",
+    "btn":{
+        "solve": "单步",
+        "hint": "提示",
+        "export": "导出",
+        "import": "导入",
+        "new": "新建",
+        "showCandidate": "显示候补"
+    }
+}

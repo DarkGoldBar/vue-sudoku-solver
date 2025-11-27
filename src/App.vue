@@ -1,23 +1,17 @@
 <script setup lang="ts">
-import SudokuTable from './components/SudokuTable.vue';
+import NavBar from './components/NavBar.vue'
+import SudokuTable from './components/SudokuTable.vue'
 </script>
 
 <template>
-  <h1>Sudoku Solver</h1>
-  <SudokuTable />
+  <NavBar
+    github-url="https://github.com/DarkGoldBar/vue-sudoku-solver"
+  />
+  <div class="mt-16 mb-4 pt-2">
+    <h2>{{ $t("title") }}</h2>
+    <SudokuTable />
+  </div>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+<style>
 </style>
