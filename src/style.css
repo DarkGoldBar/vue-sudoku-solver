@@ -1,5 +1,35 @@
 @import "tailwindcss";
 
+:root {
+  --cell-size: 60px;
+  --main-font-size: calc(var(--cell-size) * 0.4);
+  --small-font-size: calc(var(--cell-size) * 0.2);
+}
+
+@media (max-width: 768px) {
+  body {
+    transform: scale(0.75);
+    transform-origin: top left;
+    width: 134%;
+    height: 134%;
+  }
+}
+
+@media (max-width: 500px) {
+  body {
+    transform: scale(0.6);
+    transform-origin: top left;
+    width: 167%;
+    height: 167%;
+  }
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 h2 {
   @apply text-center text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight tracking-tight text-slate-900 dark:text-slate-100 mb-4
 }

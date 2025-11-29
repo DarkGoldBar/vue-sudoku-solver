@@ -148,8 +148,8 @@ const handleNew = () => {
 
 .sudoku-grid {
   display: grid;
-  grid-template-columns: repeat(9, 60px);
-  grid-template-rows: repeat(9, 60px);
+  grid-template-columns: repeat(9, var(--cell-size));
+  grid-template-rows: repeat(9, var(--cell-size));
   grid-gap: 1px;
   border: 2px solid #333;
 }

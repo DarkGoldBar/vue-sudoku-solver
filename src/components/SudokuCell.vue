@@ -31,8 +31,8 @@ defineProps<{
 
 <style scoped>
 .sudoku-cell {
-  width: 60px;
-  height: 60px;
+  width: var(--cell-size);
+  height: var(--cell-size);
   border: 1px solid #ccc;
   display: flex;
   justify-content: center;
@@ -49,7 +49,7 @@ defineProps<{
 }
 
 .main-number {
-  font-size: 24px;
+  font-size: var(--main-font-size);
   font-weight: bold;
 }
 
@@ -69,7 +69,7 @@ defineProps<{
 }
 
 .candidate-number {
-  font-size: 12px;
+  font-size: var(--small-font-size);
   display: flex;
   justify-content: center;
   align-items: center;
