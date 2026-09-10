@@ -1,37 +1,42 @@
 # 轮椅数独
 
-解数独辅助工具
+一个纯前端的数独辅助与练习工具：输入盘面后即时显示候选数、标记冲突，并可按基础逻辑逐步给出提示或填入答案。
 
-https://darkgoldbar.github.io/vue-sudoku-solver
+在线使用：https://darkgoldbar.github.io/vue-sudoku-solver
 
-## 项目设计
+## 特性
 
-- Vue3<script setup lang="ts">
-- App.vue -> sudokuTable.vue -> sudokuCell.vue
+- 自动显示每个空格的合法候选数，已填冲突数字以红色提示
+- 支持鼠标与键盘输入、选中格高亮及候选数显隐
+- 提示或填入下一步：识别 Naked Single 和 Hidden Single
+- 按指定挖空数生成保证唯一解的新题
+- 以 81 位数字字符串导入、导出盘面（`0` 表示空格）
+- 中、英、日三语界面与深色模式
 
-## 模块设计
+## 架构
 
-### App.vue
+```
+App
+├── NavBar         # 语言、深色模式、GitHub 链接
+└── SudokuTable    # 81 格盘面状态、输入/导入导出、提示与生成
+    └── SudokuCell # 数字、候选数与冲突渲染
 
-- 标题 Sudoku Solver
-- sudokuTable
-- 数字输入按钮
-- 控制按钮：
-  - 提示并解一个格子
-  - 提示一个格子
-  - 导出当前盘面为 81 个数字，0 表示空位
-  - 从 81 个数字导入盘面，0 表示空位
+functions.js       # 邻接表、候选掩码、求解与唯一解题目生成
+```
 
-### sudokuTable.vue
+盘面以长度为 81 的一维数组保存。初始化时建立每格的 24 个邻居（同行、同列、同宫），并以 9 位位掩码计算已占用数字；界面渲染、冲突判断和单步求解均复用这份状态。
 
-- 一次性计算一个邻接映射表，保存每个格子的邻接格子。每个格子对应：同列，同行，同宫，每种 8 个，共计 24 个邻居格子。
-- 包含 81 个 sudokuCell，使用一维数组保存，方便遍历。
-- 一个 cell 中填写数字时，使它的邻居的对应数字的计数器加一
-- 一个 cell 中取消填写数字时，使它的邻居的对应数字的计数器减一
+## 技术栈
 
-### sudokuCell.vue
+Vue 3、TypeScript、Vite、Vue I18n、Tailwind CSS。
 
-- val 储存当前填写的数字 1-9
-- valCount 储存 9 个数字的邻居计数
-- 当 val 存在时，显示大字的 val。如果当前 val 的对应的邻居计数为 0，正常显示。如果大于 0，则为填写错误，标红警告
-- 当 val 不存在时，以迷你九宫格显示 9 个候选数字。只有邻居计数为 0 的数字显示，大于 0 的不显示。
+## 本地运行
+
+```bash
+npm install
+npm run dev
+```
+
+```bash
+npm run build
+```
