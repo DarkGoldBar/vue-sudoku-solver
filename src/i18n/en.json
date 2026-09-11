@@ -1,11 +1,24 @@
 {
     "lang": "English",
-    "title": "Sudoku Solver",
+    "title": "Sudoku",
+    "newGame": {
+        "title": "New game",
+        "description": "Choose the number of empty cells for a new Sudoku.",
+        "holes": "Empty cells",
+        "range": "30–60 cells, default 40",
+        "replace": "Starting a new game will replace the current board.",
+        "cancel": "Cancel",
+        "start": "Start game"
+    },
+    "mode": {
+        "label": "Input mode",
+        "given": "Given",
+        "filled": "Fill",
+        "assumption": "Assume"
+    },
     "btn": {
         "solve": "Solve",
         "hint": "Hint",
-        "export": "Export",
-        "import": "Import",
         "new": "new",
         "showCandidate": "Show Candidate"
     }

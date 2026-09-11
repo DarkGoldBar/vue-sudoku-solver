@@ -2,6 +2,13 @@
 
 :root {
   --cell-size: 60px;
+  --number-given-color: #222;
+  --number-filled-color: #2563eb;
+  --number-assumption-color: hsl(121, 40%, 53%);
+  --error-color: #ff4444;
+  --cell-hover-bg: #9eff5480;
+  --cell-selected-bg: rgb(229, 255, 79);
+  --cell-related-bg: color-mix(in srgb, var(--cell-selected-bg) 50%, transparent);
   --main-font-size: calc(var(--cell-size) * 0.4);
   --small-font-size: calc(var(--cell-size) * 0.2);
 }
@@ -30,10 +37,23 @@
   overflow: hidden;
 }
 
-h2 {
-  @apply text-center text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight tracking-tight text-slate-900 dark:text-slate-100 mb-4
+button {
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .btn {
   @apply px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600; 
+}
+
+.btn-primary-outline {
+  @apply px-4 py-2 border border-blue-500 text-blue-500 bg-transparent font-semibold rounded hover:bg-blue-50;
+}
+
+.btn-primary-outline[aria-pressed="true"] {
+  @apply bg-blue-100;
+}
+
+.btn-primary-outline:focus-visible {
+  @apply outline-2 outline-offset-2 outline-blue-500;
 }

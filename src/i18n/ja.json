@@ -1,13 +1,25 @@
 {
     "lang": "日本語",
-    "title": "数独解答",
+    "title": "数独",
+    "newGame": {
+        "title": "新しいゲーム",
+        "description": "空欄の数を選んで、新しい数独を生成します。",
+        "holes": "空欄の数",
+        "range": "30〜60 マス（初期値 40）",
+        "replace": "開始すると現在の盤面が置き換わります。",
+        "cancel": "キャンセル",
+        "start": "ゲーム開始"
+    },
+    "mode": {
+        "label": "入力モード",
+        "given": "問題",
+        "filled": "記入",
+        "assumption": "仮定"
+    },
     "btn": {
         "solve": "一手進める",
         "hint": "ヒント",
-        "export": "エクスポート",
-        "import": "インポート",
         "new": "新規",
         "showCandidate": "候補の表示"
     }
 }
-

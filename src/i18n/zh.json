@@ -1,12 +1,25 @@
 {
     "lang": "中文",
-    "title": "数独求解",
+    "title": "数独",
+    "newGame": {
+        "title": "新游戏",
+        "description": "选择挖空数量，生成一道新的数独。",
+        "holes": "挖空数量",
+        "range": "30–60 格，默认 40 格",
+        "replace": "开始新游戏将替换当前棋盘。",
+        "cancel": "取消",
+        "start": "开始游戏"
+    },
+    "mode": {
+        "label": "输入模式",
+        "given": "题面",
+        "filled": "填写",
+        "assumption": "假设"
+    },
     "btn":{
         "solve": "单步",
         "hint": "提示",
-        "export": "导出",
-        "import": "导入",
-        "new": "新建",
+        "new": "新游戏",
         "showCandidate": "显示候补"
     }
 }

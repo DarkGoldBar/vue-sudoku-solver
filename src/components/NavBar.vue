@@ -48,6 +48,8 @@ onUnmounted(() => {
       <slot></slot>
     </div>
 
+    <h1 class="absolute left-1/2 -translate-x-1/2 text-2xl font-semibold text-slate-900 dark:text-slate-100">{{ $t('title') }}</h1>
+
     <!-- 右侧按钮组 -->
     <div class="flex items-center gap-4">
       <!-- GitHub -->
