@@ -10,6 +10,11 @@
         "cancel": "Cancel",
         "start": "Start game"
     },
+    "completion": {
+        "title": "Sudoku complete!",
+        "message": "Congratulations, every number is correct.",
+        "close": "Continue"
+    },
     "mode": {
         "label": "Input mode",
         "given": "Given",

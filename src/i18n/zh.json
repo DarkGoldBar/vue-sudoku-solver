@@ -10,6 +10,11 @@
         "cancel": "取消",
         "start": "开始游戏"
     },
+    "completion": {
+        "title": "数独完成！",
+        "message": "恭喜你，所有数字都填写正确。",
+        "close": "继续"
+    },
     "mode": {
         "label": "输入模式",
         "given": "题面",

@@ -63,6 +63,29 @@
       </div>
     </form>
   </dialog>
+  <dialog
+    ref="completionDialog"
+    class="completion-dialog"
+    aria-labelledby="completion-title"
+    @cancel="closeCompletion"
+  >
+    <div class="confetti" aria-hidden="true">
+      <i
+        v-for="piece in confettiPieces"
+        :key="piece.id"
+        class="confetti-piece"
+        :style="piece.style"
+      />
+    </div>
+    <div class="completion-content">
+      <span class="completion-icon" aria-hidden="true">✓</span>
+      <h2 id="completion-title">{{ $t('completion.title') }}</h2>
+      <p>{{ $t('completion.message') }}</p>
+      <div class="panel dialog-actions">
+        <button class="btn" autofocus @click="closeCompletion">{{ $t('completion.close') }}</button>
+      </div>
+    </div>
+  </dialog>
 </template>
 
 <script setup lang="ts">
@@ -79,7 +102,19 @@ const occupied = ref<number[]>(Array(81).fill(0));
 const selectedCell = ref<number | null>(null);
 const showCandidate = ref<boolean>(false);
 const newGameDialog = ref<HTMLDialogElement | null>(null);
+const completionDialog = ref<HTMLDialogElement | null>(null);
 const newGameHoles = ref<number | string>(40);
+const solutionGrid = ref<number[]>([]);
+const confettiPieces = Array.from({ length: 52 }, (_, id) => ({
+  id,
+  style: {
+    '--x': `${(id * 37) % 100}%`,
+    '--delay': `${-((id * 71) % 1500)}ms`,
+    '--duration': `${2200 + (id % 7) * 180}ms`,
+    '--color': ['#f43f5e', '#f59e0b', '#22c55e', '#3b82f6', '#a855f7'][id % 5],
+    '--rotation': `${(id * 53) % 360}deg`,
+  },
+}));
 
 const openNewGame = () => {
   newGameHoles.value = 40;
@@ -92,8 +127,18 @@ const reset = () => {
   occupied.value.fill(0);
 }
 
+const closeCompletion = () => completionDialog.value?.close();
+
+const showCompletion = () => {
+  if (!completionDialog.value?.open) completionDialog.value?.showModal();
+};
+
 // 处理数字选择
-const handleNumberSelect = (num: number, kind: NumberKind = inputMode.value) => {
+const handleNumberSelect = (
+  num: number,
+  kind: NumberKind = inputMode.value,
+  checkCompletion = true,
+) => {
   if ((selectedCell.value === null) || (selectedCell.value < 0) || (selectedCell.value > 80)) return;
 
   const index = selectedCell.value;
@@ -101,6 +146,13 @@ const handleNumberSelect = (num: number, kind: NumberKind = inputMode.value) => 
   grid.value[index] = num;
   numberKinds.value[index] = num === 0 ? null : kind;
   occupied.value = getOccupied(grid.value);
+
+  // A generated puzzle has a retained solution, so completion only occurs when
+  // the final user-entered value matches that solution.
+  if (checkCompletion && num !== 0 && solutionGrid.value[index] === num
+    && grid.value.every((value, cellIndex) => value === solutionGrid.value[cellIndex])) {
+    showCompletion();
+  }
 };
 
 const handleHint = () => {
@@ -114,7 +166,7 @@ const handleSolve = () => {
   const {pos, num} = solveNext(grid.value, occupied.value)
   if (pos >= 0) {
     selectedCell.value = pos
-    handleNumberSelect(num, 'filled');
+    handleNumberSelect(num, 'filled', false);
   }
 };
 
@@ -127,11 +179,13 @@ const handleNew = () => {
   const questGrid = generateQuest(seed, holes, fullGrid);
   reset();
   grid.value = questGrid;
+  solutionGrid.value = fullGrid;
   numberKinds.value = questGrid.map(num => num === 0 ? null : 'given');
   occupied.value = getOccupied(questGrid);
   selectedCell.value = null;
   inputMode.value = 'filled';
   newGameDialog.value?.close();
+  closeCompletion();
 };
 </script>
 
@@ -233,4 +287,68 @@ const handleNew = () => {
 :global(.dark) .dialog-description,
 :global(.dark) .replace-notice,
 :global(.dark) .holes-control span { color: #cbd5e1; }
+
+.completion-dialog {
+  margin: auto;
+  overflow: visible;
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  color: #0f172a;
+}
+
+.completion-dialog::backdrop { background: rgb(15 23 42 / 0.62); }
+
+.completion-content {
+  position: relative;
+  z-index: 1;
+  width: min(360px, calc(100vw - 48px));
+  padding: 32px;
+  border-radius: 20px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 24px 64px #0f172a66;
+}
+
+.completion-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: #22c55e;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.completion-content h2 { margin-bottom: 8px; font-size: 28px; font-weight: 700; }
+.completion-content p { color: #64748b; }
+.completion-content .dialog-actions { justify-content: center; margin-top: 24px; }
+
+.confetti { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.confetti-piece {
+  position: absolute;
+  top: -24px;
+  left: var(--x);
+  width: 10px;
+  height: 18px;
+  border-radius: 2px;
+  background: var(--color);
+  animation: confetti-fall var(--duration) var(--delay) linear infinite;
+}
+
+@keyframes confetti-fall {
+  from { transform: translate3d(0, -30px, 0) rotate(var(--rotation)); }
+  to { transform: translate3d(100px, 110vh, 0) rotate(calc(var(--rotation) + 720deg)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece { animation: none; top: 12%; }
+}
+
+:global(.dark) .completion-content { background: #1f2937; color: #f8fafc; }
+:global(.dark) .completion-content p { color: #cbd5e1; }
 </style>
