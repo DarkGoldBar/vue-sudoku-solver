@@ -1,6 +1,31 @@
 {
     "lang": "English",
     "title": "Sudoku",
+    "photoImport": {
+        "title": "Import from photo",
+        "description": "Photograph a printed Sudoku or choose a screenshot. Images stay on your device. Edit recognized digits in Given mode on the main board.",
+        "camera": "Take photo",
+        "choose": "Choose image",
+        "rotate": "Rotate 90°",
+        "loading": "Loading recognition tools. The first load may take a while; you can take a photo or choose an image now.",
+        "ready": "Recognition is ready. Choose an image and check the board boundary to import.",
+        "decoding": "Reading image…",
+        "recognizing": "Recognizing: {count} / 81 cells",
+        "crop": "Keep digits upright and drag the four blue corners to the board's outer border. Focus a corner and use arrow keys to adjust it.",
+        "corner0": "Top left corner",
+        "corner1": "Top right corner",
+        "corner2": "Bottom right corner",
+        "corner3": "Bottom left corner",
+        "replace": "Importing will replace the current board.",
+        "cancel": "Cancel",
+        "import": "Recognize and import",
+        "retry": "Reload",
+        "loadError": "Recognition tools failed to load or timed out. Check your connection and try again.",
+        "imageError": "Cannot read this image. Choose a browser-supported format such as JPEG or PNG.",
+        "cornersError": "Invalid boundary. Arrange corners clockwise from the top left without crossing edges.",
+        "noDigits": "No digits recognized. Adjust the board boundary or try a clearer image.",
+        "recognitionError": "Recognition failed or timed out. Reload and try again."
+    },
     "newGame": {
         "title": "New game",
         "description": "Choose the number of empty cells for a new Sudoku.",
@@ -22,6 +47,7 @@
         "assumption": "Assume"
     },
     "btn": {
+        "photoImport": "Import photo",
         "solve": "Solve",
         "hint": "Hint",
         "new": "new",

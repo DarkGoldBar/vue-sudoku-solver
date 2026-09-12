@@ -2,6 +2,7 @@
   <div class="sudoku-table">
     <div class="panel toolbar">
       <button class="btn" @click="openNewGame()">{{ $t("btn.new") }}</button>
+      <button class="btn" @click="handlePhotoImport()">{{ $t("btn.photoImport") }}</button>
       <button class="btn" @click="handleSolve()">{{ $t("btn.solve") }}</button>
       <button class="btn" @click="handleHint()">{{ $t("btn.hint") }}</button>
       <button
@@ -90,9 +91,25 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Sudoku from './Sudoku.vue';
 import { canOverwrite, type NumberKind } from '../numberKind';
 import { generateSudoku, generateQuest, getOccupied, solveNext } from '../functions.js';
+import { openPhotoImport } from '../photoImport';
+
+const { t } = useI18n();
+
+const handlePhotoImport = async () => {
+  const imported = await openPhotoImport(t, grid.value.some(Boolean));
+  if (!imported) return;
+  grid.value = imported;
+  numberKinds.value = imported.map(num => num === 0 ? null : 'given');
+  occupied.value = getOccupied(imported);
+  solutionGrid.value = [];
+  selectedCell.value = null;
+  inputMode.value = 'given';
+  closeCompletion();
+};
 
 const grid = ref<(number)[]>(Array(81).fill(0));
 const numberKinds = ref<(NumberKind | null)[]>(Array(81).fill(null));
@@ -209,7 +226,7 @@ const handleNew = () => {
 }
 
 .toolbar {
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
   white-space: nowrap;
 }
