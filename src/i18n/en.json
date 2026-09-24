@@ -1,6 +1,12 @@
 {
     "lang": "English",
     "title": "Sudoku",
+    "settings": {
+        "title": "Settings",
+        "github": "View on GitHub",
+        "language": "Language",
+        "darkMode": "Dark mode"
+    },
     "photoImport": {
         "title": "Import from photo",
         "description": "Photograph a printed Sudoku or choose a screenshot. Images stay on your device. Edit recognized digits in Given mode on the main board.",

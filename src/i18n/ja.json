@@ -1,6 +1,12 @@
 {
     "lang": "日本語",
     "title": "数独",
+    "settings": {
+        "title": "設定",
+        "github": "GitHub で見る",
+        "language": "言語",
+        "darkMode": "ダークモード"
+    },
     "photoImport": {
         "title": "写真から読み込み",
         "description": "印刷された数独を撮影するか、スクリーンショットを選択します。画像は端末内で処理されます。読み込み後は盤面の「問題」モードで修正できます。",

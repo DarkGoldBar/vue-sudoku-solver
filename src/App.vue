@@ -4,13 +4,17 @@ import SudokuTable from './components/SudokuTable.vue'
 </script>
 
 <template>
-  <NavBar
-    github-url="https://github.com/DarkGoldBar/vue-sudoku-solver"
-  />
-  <div class="mt-16 mb-4 pt-2">
+  <main class="page-layout">
+    <NavBar github-url="https://github.com/DarkGoldBar/vue-sudoku-solver" />
     <SudokuTable />
-  </div>
+  </main>
 </template>
 
 <style>
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 0;
+}
 </style>

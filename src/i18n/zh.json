@@ -1,6 +1,12 @@
 {
     "lang": "中文",
     "title": "数独",
+    "settings": {
+        "title": "设置",
+        "github": "在 GitHub 中查看",
+        "language": "语言",
+        "darkMode": "深色模式"
+    },
     "photoImport": {
         "title": "拍照导入",
         "description": "拍摄印刷数独或选择截图。图片仅在本机处理；识别后可在主棋盘的“题面”模式修改。",
